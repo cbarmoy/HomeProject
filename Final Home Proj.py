@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from dataclasses import dataclass, field
 from collections import deque
 import copy
@@ -885,6 +886,73 @@ def export_detailed_data(states, filename="simulation_data.csv"):
     print(f"\nDetailed simulation data exported to: {filename}")
     return filename
 
+
+def export_summary_image(states, filename="simulation_summary.png"):
+    """
+    Generate and export a high-quality summary image of the simulation results.
+
+    Parameters:
+        states (list): List of simulation states over time.
+        filename (str): Output image file name (PNG).
+    """
+    if not states:
+        print("No simulation data to export.")
+        return
+
+    steps = list(range(len(states)))
+    bacteria_counts = [len(s[0]) for s in states]
+    glucose_counts = [len(s[1]) for s in states]
+    metabolite_counts = [len(s[2]) for s in states]
+    avg_atp = [np.mean([e.ATP for e in s[0]]) if s[0] else 0 for s in states]
+    total_metabolites = [sum(e.produced_metabolite for e in s[0]) for s in states]
+
+    plt.figure(figsize=(14, 10))
+
+    # Subplot 1: Population dynamics
+    plt.subplot(2, 2, 1)
+    plt.plot(steps, bacteria_counts, label="E. coli", color='green')
+    plt.plot(steps, glucose_counts, label="Glucose", color='blue')
+    plt.plot(steps, metabolite_counts, label="Metabolites", color='purple')
+    plt.title("Population Dynamics Over Time", fontsize=14)
+    plt.xlabel("Simulation Step")
+    plt.ylabel("Count")
+    plt.legend()
+    plt.grid(True)
+
+    # Subplot 2: Average ATP
+    plt.subplot(2, 2, 2)
+    plt.plot(steps, avg_atp, label="Avg ATP", color='orange')
+    plt.title("Average ATP Level in E. coli", fontsize=14)
+    plt.xlabel("Simulation Step")
+    plt.ylabel("ATP Units")
+    plt.grid(True)
+
+    # Subplot 3: Total metabolites produced
+    plt.subplot(2, 2, 3)
+    plt.plot(steps, total_metabolites, label="Cumulative Metabolites", color='teal')
+    plt.title("Total Metabolites Produced", fontsize=14)
+    plt.xlabel("Simulation Step")
+    plt.ylabel("Metabolites")
+    plt.grid(True)
+
+    # Subplot 4: Ratios
+    plt.subplot(2, 2, 4)
+    ratio = [g / b if b > 0 else 0 for g, b in zip(glucose_counts, bacteria_counts)]
+    plt.plot(steps, ratio, label="Glucose per Bacteria", color='red')
+    plt.title("Glucose per Bacteria Ratio", fontsize=14)
+    plt.xlabel("Simulation Step")
+    plt.ylabel("Ratio")
+    plt.grid(True)
+
+    plt.suptitle("Simulation Summary", fontsize=18)
+    plt.tight_layout(rect=[0, 0, 1, 0.96])
+
+    # Export as high-resolution PNG
+    plt.savefig(filename, dpi=300)
+    plt.close()
+    print(f"Summary image exported as {filename}")
+
+
 # ====================
 # --- Dash Visualization ---
 # ====================
@@ -1547,6 +1615,9 @@ if __name__ == '__main__':
     # Export simulation data to CSV
     csv_filename = export_detailed_data(states)
     print(f"\nSimulation data has been exported to: {csv_filename}")
+
+    #export simulation data to PNG
+    export_summary_image(states)
     
     # Initialize and run dashboard
     dashboard = SimulationDashboard(states, space_size, fluid_field=fluid, drain_system=drain_system)
