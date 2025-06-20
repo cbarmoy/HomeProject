@@ -15,7 +15,6 @@ try:
     from dash.dependencies import Input, Output, State
     import plotly.graph_objs as go
     from plotly.subplots import make_subplots
-    import pandas as pd
     import dash_bootstrap_components as dbc
 except ImportError as e:
     print(f"Error importing Dash dependencies: {e}")
@@ -638,15 +637,13 @@ def simulate(n_ecoli=10, n_glucose=300, space_size=20e-6, max_steps=250,
     fluid = StreamField(width=space_size, height=space_size)
     
     # Initialize drain system
-    drain_system = DrainSystem(space_size=space_size)
+    drain_system = None
+    if scenario.get('use_drain', True):
+        drain_system = DrainSystem(space_size=space_size)
     
     ecoli_list, glucose_list = create_ecoli_and_glucose(n_ecoli, n_glucose, space_size)
     metabolite_list = []
     states = []
-
-    # Initialize statistics tracking
-    total_toxic_deaths = 0
-    total_atp_lost_to_toxicity = 0
 
     # Print initial setup
     print("\nStarting simulation...")
@@ -1550,27 +1547,29 @@ if __name__ == '__main__':
             'max_steps': 500
         },
         '2': {
-            'name': 'high_density',
-            'description': 'Higher bacterial and glucose density in a smaller space',
-            'n_ecoli': 100,
-            'n_glucose': 2000,
-            'space_size': 40e-6,
-            'max_steps': 500
+            'name': 'no_drain',
+            'description': 'No particle recovery or drainage system',
+            'n_ecoli': 50,
+            'n_glucose': 1000,
+            'max_steps': 500,
+            'use_drain': False
         },
         '3': {
-            'name': 'low_nutrient',
-            'description': 'Limited nutrients with slower feeding rate',
+            'name': 'glucose_rich',
+            'description': 'High initial and frequent glucose feed',
             'n_ecoli': 50,
-            'n_glucose': 500,
-            'glucose_feed_interval': 40,
-            'glucose_feed_amount': 25,
+            'n_glucose': 3000,              
+            'glucose_feed_interval': 10,  
+            'glucose_feed_amount': 200,   
             'max_steps': 500
         },
         '4': {
-            'name': 'efficient_drainage',
-            'description': 'Optimized for metabolite collection',
-            'n_ecoli': 75,
-            'n_glucose': 1500,
+            'name': 'glucose_poor',
+            'description': 'Low glucose and rare feeding',
+            'n_ecoli': 50,
+            'n_glucose': 200,              
+            'glucose_feed_interval': 50,   
+            'glucose_feed_amount': 20, 
             'max_steps': 500
         }
     }
