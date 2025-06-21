@@ -1,6 +1,6 @@
-# 🦠 Bacterial Growth Simulation
+# 🦠 Bioreactor Simulation
 
-Welcome to the most epic bacteria party simulator you'll ever see! Watch as your tiny bacterial friends navigate through life, eat glucose, and try not to get too tipsy on their own metabolites. 🎉
+Welcome to the Bioreactor Simulation! This interactive tool, built with Python and Dash, models the behavior of *E. coli* in a dynamic microenvironment. Watch as bacteria consume glucose, produce acetate, and respond to environmental factors like fluid dynamics and metabolite toxicity.
 
 ## 🚀 Prerequisites
 
@@ -16,113 +16,110 @@ Before we dive into the microscopic mosh pit, you'll need:
 
 ## 🎮 Setup Instructions
 
+When you run the script, you will be prompted to choose from several predefined scenarios. After selecting a scenario, the simulation will generate the necessary data and launch a web-based dashboard for visualization.
+
 ### Method 1: The Easy Way (Spyder) 
 #### AKA "I Just Want to Watch Bacteria Dance" Edition
 
 
 1. **Open the Anaconda Prompt** (on Windows) or a terminal (on macOS/Linux).
-2. Run one of the following commands:
+2. Run the following command to install the required packages:
 
      ```
-     pip install dash
-     pip install plotly
-     pip install dash-bootstrap-components
+     pip install numpy dash plotly pandas dash-bootstrap-components
      ```
 
-3. Open "Final Home Proj.py" in spyder (your bacteria's party playlist)
-4. Hit that green play button like it's a Discord call! 🎵
+3. Open `Bioreactor_Simulation.py` in Spyder.
+4. Hit that green play button! 🎵
+5. Follow the prompts in the console to select a scenario.
+6. The dashboard will automatically open in your web browser.
 
 ### Method 2: The Terminal Way 
 #### AKA "I'm a Command Line Warrior" Edition
 
 1. Open your terminal (Command Prompt for Windows warriors, Terminal for Mac/Linux legends)
-2. Navigate to your bacteria's dance floor:
+2. Navigate to your project directory:
    ```bash
-   cd path/to/project/folder
+   cd path/to/your/project/folder
    ```
-3. Create a cozy virtual environment:
+3. Create a virtual environment (recommended):
    ```bash
    python -m venv .venv
    ```
-4. Activate your bacteria's VIP room:
-   - Windows party:
+4. Activate the virtual environment:
+   - Windows:
      ```bash
      .venv\Scripts\activate
      ```
-   - Mac/Linux rave:
+   - macOS/Linux:
      ```bash
      source .venv/bin/activate
      ```
-5. Install the party supplies:
+5. Install the required packages:
    ```bash
-   pip install numpy dash plotly pandas dash-bootstrap-components
+   pip install -r requirements.txt
    ```
-6. Start the party:
+6. Start the simulation:
    ```bash
-   python "Final Home Proj.py"
+   python Bioreactor_Simulation.py
    ```
+7. Follow the prompts in the terminal to select a scenario. The dashboard will then launch in your browser.
 
 ## 🆘 Troubleshooting (When the Party Goes Wrong)
 
 1. **"Module not found" error**
-   - Looks like someone forgot to bring snacks to the party
-   - Try `pip install [package_name]` to feed the hungry Python 🐍
+   - It looks like a required package is missing.
+   - Run `pip install -r requirements.txt` to install all necessary dependencies.
 
 2. **"Port already in use" error**
-   - Another party is already happening on port 8050
-   - Time to crash that other party or find a new venue!
+   - Another application is using port 8050.
+   - You can specify a different port when launching the dashboard (this requires a minor code modification).
 
 3. **Dashboard not showing**
-   - Your bacteria are shy! Visit them at: http://127.0.0.1:8050
-   - Make sure no other app is hogging port 8050 (looking at you, Spotify 👀)
+   - The simulation first runs in the terminal to generate data. Once complete, it will launch the dashboard.
+   - Check the console output for the URL (usually http://127.0.0.1:8050) and open it in your browser.
 
 4. **Slow performance**
-   - Too many bacteria at the party!
-   - Try reducing the crowd size (your CPU will thank you)
+   - The simulation can be computationally intensive.
+   - Consider choosing a scenario with fewer particles or a smaller number of steps.
 
 ## 🎨 Features
 
 - **Multi-particle System**:
-  - E. coli bacteria with ATP-based metabolism
-  - Glucose particles with momentum-based movement
-  - Metabolites with diffusion and concentration decay
-  - Fluid dynamics affecting particle movement
-
-- **Advanced Physics**:
-  - Realistic particle movement with momentum
-  - Fluid dynamics with streamlines
-  - Gravity effects and boundary interactions
-  - Brownian motion and diffusion
-
-- **Biological Mechanisms**:
-  - ATP-based bacterial metabolism
-  - Glucose consumption and metabolite production
-  - Toxicity effects from metabolite concentration
-  - Bacterial growth and division
-
-- **Environmental Features**:
-  - Drain system for particle collection and recycling
-  - Dynamic glucose feeding system
-  - Spatial partitioning for efficient neighbor detection
-  - Customizable environment parameters
+  - *E. coli* bacteria with ATP-based metabolism and chemotaxis.
+  - Glucose particles serving as the primary substrate.
+  - Acetate (metabolite) particles that diffuse and can become toxic.
+- **Fluid Dynamics**:
+  - A simulated flow field affects particle movement, mimicking a bioreactor environment.
+  - A drain system removes particles from the bottom and can recycle them.
+- **Advanced Biological Models**:
+  - ATP-based energy management for bacterial growth, division, and survival.
+  - Michaelis-Menten-like kinetics for glucose consumption.
+  - Metabolite production (acetate) and its toxic effects on the bacterial population.
+- **Interactive Dashboard**:
+  - Real-time visualization of particle positions.
+  - Dynamic plots for population counts, ATP levels, and metabolite concentrations.
+  - Controls to play, pause, and adjust the simulation speed.
 
 ## 🎯 Available Scenarios
 
-1. **Baseline** – The Casual Friday Party 🎈  
-   - Just your standard bacterial get-together  
-   - Parameters: `n_ecoli: 50`, `n_glucose: 1000`, `max_steps: 500`
+When you run the script, you can choose from one of the following scenarios:
 
-2. **No Drain** – The Hoarder’s Paradise 🚫🧹  
-   - No cleanup crew in sight — what goes in stays in  
-   - Parameters: `n_ecoli: 50`, `n_glucose: 1000`, `max_steps: 500`, `use_drain: False`
+1. **Baseline** – The Standard Run 🎈  
+   - A balanced simulation with standard parameters.  
+   - `n_ecoli: 50`, `n_glucose: 1000`, `max_steps: 500`
 
-3. **Glucose Rich** – The All-You-Can-Eat Buffet 🍰  
-   - Endless snacks and frequent refills — pure bacterial bliss  
-   - Parameters: `n_ecoli: 50`, `n_glucose: 3000`, `glucose_feed_interval: 10`, `glucose_feed_amount: 200`, `max_steps: 500`
+2. **No Drain** – The Closed System 🚫🧹  
+   - All particles remain in the simulation, leading to acetate accumulation.  
+   - `use_drain: False`
 
-4. **Glucose Poor** – The Fasting Retreat 🍃  
-   - Minimal snacks, long wait times — survival of the chillest  
-   - Parameters: `n_ecoli: 50`, `n_glucose: 200`, `glucose_feed_interval: 50`, `glucose_feed_amount: 20`, `max_steps: 500`
+3. **Glucose Rich** – The High-Yield Experiment 🍰  
+   - An abundance of glucose to promote rapid growth.  
+   - `n_glucose: 3000`, `glucose_feed_interval: 10`, `glucose_feed_amount: 200`
+
+4. **Glucose Poor** – The Survival Challenge 🍃  
+   - Limited glucose availability, testing the bacteria's resilience.  
+   - `n_glucose: 200`, `glucose_feed_interval: 50`, `glucose_feed_amount: 20`
 
 ## 🎮 Running the Show
 
@@ -136,154 +133,109 @@ Before we dive into the microscopic mosh pit, you'll need:
 ## 📊 Understanding What You're Seeing
 
 ### Dashboard Elements
-- Blue dots: Glucose (the snacks)
-- Green dots: Your bacterial party people
-- Purple dots: Metabolites (what happens after too many snacks)
-- Gray bars: The bouncers (drain system)
+- **Simulation View**:
+    - Green dots: *E. coli* bacteria
+    - Blue dots: Glucose particles
+    - Purple dots: Acetate (metabolite) particles
+    - Gray areas: The drain system at the bottom.
+- **Time-Series Plots**:
+    - Track key metrics over time, including population counts, ATP levels, and acetate concentration.
 
 ### CSV Data Output
-All party statistics are saved for posterity:
+The simulation automatically saves detailed data from each run:
 - File name: `simulation_data_YYYYMMDD_HHMMSS.csv`
-- Perfect for spreadsheet enthusiasts and data nerds 🤓
+- This file contains a step-by-step log of key simulation parameters, perfect for further analysis.
 
 ## 🧬 Code Breakdown (For the Curious Minds)
 
 ### 🏗️ Main Components
 
-#### StreamField Class 🌊
-```python
-class StreamField:
-    """Your bacteria's swimming pool!"""
-```
-- Creates the fluid environment where everything happens
-- Manages flow patterns and drain positions
-- Think of it as the bacteria's water park with special currents
+The code is structured around a central configuration object and several key classes that model the different components of the bioreactor.
 
-#### SpatialGrid Class 📍
-```python
-class SpatialGrid:
-    """The bacteria's GPS system"""
-```
-- Helps bacteria find their friends and food efficiently
-- Divides space into smaller chunks (like a Discord server with multiple channels)
-- Makes sure your CPU doesn't have a meltdown calculating distances
+#### `SimulationConfig` Class
+A `dataclass` that holds all the simulation parameters. This makes it easy to manage and adjust settings from a single location.
+
+#### `StreamField` Class 🌊
+- Manages the fluid dynamics of the environment.
+- Simulates a gentle downward flow with upward currents and drain effects.
+
+#### `SpatialGrid` Class 📍
+- Implements spatial hashing to speed up neighbor detection.
+- Crucial for efficiently calculating interactions between particles.
 
 #### Particle Classes 🎯
 
-1. **Ecoli Class** 🦠
-```python
-class Ecoli:
-    """The main party people!"""
-```
-- Your bacterial protagonists
-- They can:
-  - Move around looking for food (chemotaxis)
-  - Eat glucose for ATP (energy drinks!)
-  - Produce metabolites (party leftovers)
-  - Divide when they're happy and well-fed
-  - Die if they're too hungry or surrounded by too many metabolites
+1. **`Ecoli` Class** 🦠
+- Models the bacteria. They can:
+  - Move via chemotaxis towards glucose.
+  - Consume glucose to gain ATP.
+  - Produce acetate as a metabolite.
+  - Divide if they have sufficient ATP.
+  - Die from low ATP or high acetate toxicity.
 
-2. **Glucose Class** 🍪
-```python
-class Glucose:
-    """The snacks"""
-```
-- The food particles
-- Features:
-  - Floats around with realistic physics
-  - Gets eaten by bacteria
-  - Respawns at the top (like Discord messages, but tastier)
+2. **`Glucose` Class** 🍪
+- The substrate particles.
+- They move based on diffusion and fluid dynamics.
 
-3. **Metabolite Class** 🧪
-```python
-class Metabolite:
-    """The party aftermath"""
-```
-- Waste products from bacterial metabolism
-- Can become toxic if too concentrated
-- Gets collected by the drain system
+3. **`Metabolite` Class** 🧪
+- Represents acetate, the waste product.
+- Diffuses through the environment and can negatively impact bacteria at high concentrations.
 
-#### DrainSystem Class 🚰
-```python
-class DrainSystem:
-    """The cleanup crew"""
-```
-- Collects and recycles particles
-- Manages the party cleanup
-- Keeps track of what's been collected
+#### `DrainSystem` Class 🚰
+- Manages the collection and recycling of particles that reach the bottom of the reactor.
 
-### 🎮 Simulation Control
+### 🎮 Simulation and Visualization
 
-#### Main Simulation Loop
-```python
-def simulate():
-    """The party manager"""
-```
-- Controls the whole simulation
-- Updates positions and states
-- Handles:
-  - Bacterial movement and feeding
-  - Glucose distribution
-  - Metabolite production
-  - Particle recycling
-  - Statistics tracking
+#### `simulate()` Function
+- The core simulation engine that runs the step-by-step calculations before the dashboard is launched.
 
-#### Dashboard (The UI) 🖥️
-```python
-class SimulationDashboard:
-    """Your control room"""
-```
-- Built with Dash and Plotly
-- Shows:
-  - Real-time particle visualization
-  - Population graphs
-  - ATP levels
-  - Metabolite concentrations
-  - Interactive controls
+#### `SimulationDashboard` Class 🖥️
+- An interactive dashboard built with Dash and Plotly.
+- Provides visualization and controls for exploring the simulation results.
 
 ### 🔬 The Science Behind It
 
-1. **Movement Physics** 🏃‍♂️
-   - Uses momentum and fluid dynamics
-   - Includes Brownian motion (random wiggling)
-   - Simulates chemotaxis (bacteria following food)
+1. **Movement and Physics** 🏃‍♂️
+   - **Chemotaxis**: Bacteria move towards higher concentrations of glucose.
+   - **Fluid Dynamics**: Particle movement is influenced by a simulated flow field.
+   - **Diffusion**: Glucose and acetate particles exhibit random, diffusion-like movement.
 
-2. **Metabolism System** ⚡
-   - ATP-based energy management
-   - Glucose consumption mechanics
-   - Metabolite production and toxicity
-
-3. **Population Dynamics** 📈
-   - Growth based on available resources
-   - Death from starvation or toxicity
-   - Spatial distribution patterns
+2. **Metabolism and Growth** ⚡
+   - **ATP-Based Energy**: Bacterial actions like movement and division are fueled by ATP, which is gained from consuming glucose.
+   - **Toxicity Model**: High concentrations of acetate create a toxic environment that drains ATP and can lead to cell death.
 
 ### 📁 File Structure
 
 ```
 HomeProject/
 │
-├── Final Home Proj.py      # Main party central! 🎉
-├── README.md               # You are here! 📍
-└── requirements.txt        # Shopping list for pip 🛒
+├── Bioreactor_Simulation.py # The main simulation and dashboard script. 🎉
+├── README.md                # You are here! 📍
+└── requirements.txt         # A list of the required Python packages. 🛒
 ```
 
 ### 🎛️ Key Parameters You Can Tweak
 
+All key parameters are consolidated in the `SimulationConfig` class at the top of `Bioreactor_Simulation.py`.
+
 ```python
-# In Final Home Proj.py
-class Ecoli:
-    ATP = 200               # Starting energy
-    glucose_sensitivity = 0.5    # How good they are at finding food
-    base_growth_rate = 0.12     # How fast they multiply
+# In Bioreactor_Simulation.py
+
+@dataclass
+class SimulationConfig:
+    # E. coli Parameters
+    ECOLI_INITIAL_ATP: float = 200.0
+    ECOLI_GLUCOSE_SENSITIVITY: float = 0.5
+    ECOLI_BASE_GROWTH_RATE: float = 0.12
+
+    # Acetate (Metabolite) Parameters
+    ACETATE_TOXICITY_THRESHOLD: float = 8.0
+    ACETATE_LETHAL_CONCENTRATION: float = 60.0
+
+    # ... and many more!
 ```
 
-Want to make changes? Here's what different values do:
-- Higher ATP = Longer-lasting bacteria
-- Higher sensitivity = Better at finding food
-- Higher growth rate = Faster population growth
-
-Remember: With great power comes great responsibility! Don't make your bacteria too powerful, or they might take over your CPU! 😅
+Feel free to experiment with these values to see how they affect the simulation outcome.
 
 ## 📜 License
 
